@@ -2,24 +2,26 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var ReactRouter = require('react-router');
-var Router  = ReactRouter.Router;
+var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
-var Navigation = ReactRouter.Navigation;
+var Link = ReactRouter.Link;
+var history = ReactRouter.History;
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 
 var h = require('./helpers');
+
 /*
-  App
-*/
+ App
+ */
 
 var App = React.createClass({
 
-  render : function() {
+  render: function () {
     return (
       <div className="catch-of-the-day">
         <div className="menu">
-          <Header tagline="Fresh Seafood Market" />
-        </div>  
+          <Header tagline="Fresh Seafood Market"/>
+        </div>
         <Order/>
         <Inventory/>
       </div>
@@ -28,11 +30,11 @@ var App = React.createClass({
 });
 
 /*
-  Header
-  <Header/>
-*/
+ Header
+ <Header/>
+ */
 var Header = React.createClass({
-  render : function() {
+  render: function () {
     return (
       <header className="top">
         <h1>Catch
@@ -41,18 +43,18 @@ var Header = React.createClass({
             <span className="the">the</span>
           </span>
           Day</h1>
-        <h3 className="tagline"><span>{this.props.tagline}</span></h3> 
+        <h3 className="tagline"><span>{this.props.tagline}</span></h3>
       </header>
     )
   }
 })
 
 /*
-  Order
-  <Order/>
-*/
+ Order
+ <Order/>
+ */
 var Order = React.createClass({
-  render : function() {
+  render: function () {
     return (
       <p>Order</p>
     )
@@ -60,11 +62,11 @@ var Order = React.createClass({
 })
 
 /*
-  Inventory
-  <Inventory/>
-*/
+ Inventory
+ <Inventory/>
+ */
 var Inventory = React.createClass({
-  render : function() {
+  render: function () {
     return (
       <p>Inventory</p>
     )
@@ -73,18 +75,23 @@ var Inventory = React.createClass({
 
 
 /* 
-  StorePicker
-  This will let us make <StorePicker/>
-*/
+ StorePicker
+ This will let us make <StorePicker/>
+ */
 
 var StorePicker = React.createClass({
-
-  render : function() {
+  mixins: [history],
+  goToStore: function(event) {
+    event.preventDefault();
+    var storeID = this.refs.storeID.value;
+    this.history.pushState(null, '/store/' + storeID);
+  },
+  render: function () {
     return (
-      <form className="store-selector">
+      <form className="store-selector" onsubmit={this.goToStore}>
         <h2>Please Enter A Store</h2>
-        <input type="text" ref="storeId" defaultValue={h.getFunName()} required />
-        <input type="Submit" />
+        <input type="text" ref="storeId" defaultValue={h.getFunName()} required/>
+        <input type="Submit"/>
       </form>
     )
   }
@@ -92,19 +99,19 @@ var StorePicker = React.createClass({
 });
 
 /*
-  Not Found
-*/
+ Not Found
+ */
 
 var NotFound = React.createClass({
-  render : function() {
+  render: function () {
     return <h1>Not Found!</h1>
   }
 });
 
 
 /*
-  Routes
-*/
+ Routes
+ */
 
 var routes = (
   <Router history={createBrowserHistory()}>
@@ -112,6 +119,6 @@ var routes = (
     <Route path="/store/:storeId" component={App}/>
     <Route path="*" component={NotFound}/>
   </Router>
-)
+);
 
 ReactDOM.render(routes, document.querySelector('#main'));
