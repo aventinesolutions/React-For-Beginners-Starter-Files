@@ -10,8 +10,8 @@ import Inventory from './Inventory';
 import Catalyst from 'react-catalyst';
 
 // Firebase
-import Rebase  from 're-base';
-var base = Rebase.createClass('https://catch-of-the-day.firebaseio.com/');
+import Rebase from 're-base';
+var base = Rebase.createClass('https://blazing-fire-2574.firebaseio.com/');
 
 var App = React.createClass({
   mixins : [Catalyst.LinkedStateMixin],
@@ -19,7 +19,7 @@ var App = React.createClass({
     return {
       fishes : {},
       order : {}
-    }
+    };
   },
   componentDidMount : function() {
     base.syncState(this.props.params.storeId + '/fishes', {
