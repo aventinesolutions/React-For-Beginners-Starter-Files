@@ -5,10 +5,12 @@
 
 import React from 'react';
 import reactMixin from 'react-mixin';
+import autobind from 'autobind-decorator';
 
 import { History } from 'react-router';
 import h from '../helpers';
 
+@autobind
 class StorePicker extends React.Component {
 
   goToStore(event) {
