@@ -1,6 +1,7 @@
 /*
   App
 */
+import config from '../config';
 
 import React from 'react';
 import Header from './Header';
@@ -13,7 +14,7 @@ import autobind from 'autobind-decorator';
 
 // Firebase
 import Rebase  from 're-base';
-var base = Rebase.createClass('https://catch-of-the-day.firebaseio.com/');
+var base = Rebase.createClass(config.firebaseEndpoint);
 
 @autobind
 class App extends React.Component {
@@ -97,7 +98,12 @@ class App extends React.Component {
           </ul>
         </div>  
         <Order fishes={this.state.fishes} order={this.state.order} removeFromOrder={this.removeFromOrder} />
-        <Inventory addFish={this.addFish} loadSamples={this.loadSamples} fishes={this.state.fishes} linkState={this.linkState.bind(this)} removeFish={this.removeFish} />
+        <Inventory addFish={this.addFish}
+                   loadSamples={this.loadSamples}
+                   fishes={this.state.fishes}
+                   linkState={this.linkState.bind(this)}
+                   removeFish={this.removeFish}
+                   {...this.props}/>
       </div>
     )
   }
